@@ -4,13 +4,21 @@ import { fetchApi } from "../utils/api";
 import { Box, Typography } from "@mui/material";
 import Video from "./Video";
 
-const SearchFeed = () => {
+const SearchFeed = ({ setProgress }) => {
   const [searchVideos, setSearchVideos] = useState([]);
   const { searchTerm } = useParams();
 
+  const getSearchVideos = async() => {
+    setProgress(30)
+    const data = await fetchApi(`search?part=snippet&q=${searchTerm}`);
+    setProgress(70)
+    setSearchVideos(data.items);
+    setProgress(100)
+
+  }
+
   useEffect(() => {
-    fetchApi(`search?part=snippet&q=${searchTerm}`)
-    .then((data) => setSearchVideos(data.items));
+    getSearchVideos();
   }, [searchTerm])
 
   return (

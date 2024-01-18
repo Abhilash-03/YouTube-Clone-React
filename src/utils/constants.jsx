@@ -11,12 +11,12 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
-
-export const logo = 'https://i.ibb.co/s9Qys2j/logo.png';
+import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
+export const logo = 'https://i.ibb.co/pQ2sPRd/watch-x-logo.png';
 
 export const categories = [
   { name: 'New', icon: <HomeIcon /> },
-  { name: 'Channel', icon: <CodeIcon /> },
+  { name: 'Shorts', icon: <VideoCameraFrontIcon /> },
   { name: 'Coding', icon: <CodeIcon /> },
   { name: 'ReactJS', icon: <CodeIcon /> },
   { name: 'NextJS', icon: <CodeIcon /> },
@@ -34,9 +34,9 @@ export const categories = [
   { name: 'Crypto', icon: <DeveloperModeIcon /> },
 ];
 
-export const demoThumbnailUrl = 'https://ibb.co/q7YhJXy';
+export const demoThumbnailUrl = 'https://ibb.co/q7YhJXy/backed-vercel.png';
 export const demoChannelUrl = '/channel/UChqokRI3vdOXeSB4N0KTLaw';
 export const demoVideoUrl = '/video/AU_wca9YzJs';
 export const demoChannelTitle = 'Undefined Programming';
 export const demoVideoTitle = 'Backend Deployment on Vercel for free !! || In Hindi || #UndefinedProgramming🚀👨‍💻';
-export const demoProfilePicture = 'https://ibb.co/PWQ4QJ3'
+export const demoProfilePicture = 'https://ibb.co/PWQ4QJ3/Undefined-Programming.png'
