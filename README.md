@@ -29,15 +29,4 @@ To use this project, you need to get an API key from RapidAPI for the YouTube AP
 - Save the file and restart the development server
 - You can now search for videos and channels, view their details, and play videos
 
-## Contributing
-
-This project is open for contributions. If you want to contribute, please follow these steps:
-
-- Fork this repository
-- Create a new branch for your feature or bug fix
-- Make your changes and commit them with a descriptive message
-- Push your branch to your forked repository
-- Create a pull request to the main branch of this repository
-- Wait for your pull request to be reviewed and merged
-
-## `HAPPY CODING` 👨‍💻🚀🔥🙂 !!!
+## HAPPY CODING 👨‍💻🚀🔥🙂 !!!
