@@ -1,45 +1,17 @@
 import { Box, Stack, Typography } from "@mui/material"
 import Sidebar from "./Sidebar"
-import { useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import Video from "./Video";
-import { fetchApi } from "../utils/api";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "./Loader";
+import YoutubeContext from "../context/YoutubeContext";
 
-const Feed = ({ setProgress }) => {
-    const [selectCategory, setSelectCategory] = useState('New');
-    const [videos, setVideos] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalResults, setTotalResults] = useState(0);
+const Feed = () => {
+  const { selectCategory, videos, fetchMoreData, totalResults, fetchData} = useContext(YoutubeContext);
 
-    const fetchData = async() => {
-      setProgress(30);
-      try {
-        const data =  await fetchApi(`search?part=snippet&q=${selectCategory}&page=${page}`)
-        setProgress(70);
-        setVideos(data.items);
-        setTotalResults(data?.pageInfo?.totalResults);
-        setProgress(100);
-
-      } catch (error) {
-        console.log(error.message)
-      }
-    }
-    useEffect(() => {
-      fetchData();
-    }, [selectCategory])
-    // console.log(videos);
-
-    const fetchMoreData = () => {
-      setProgress(30);
-      fetchApi(`search?part=snippet&q=${selectCategory}&page=${page + 1}`)
-      .then((data) => setVideos(videos.concat(data.items)))
-      .catch(err => console.log(err.message));
-
-      setPage(page + 1);
-      setProgress(100);
-    }
-
+  useEffect(() => {
+      fetchData(selectCategory);
+  }, [selectCategory])
   return (
     <Stack sx={{ flexDirection: {sm: 'column', md: 'row'}}}>
      <Box
@@ -50,7 +22,7 @@ const Feed = ({ setProgress }) => {
         display: {xs: 'none', md:'block'}
       }}
      >
-        <Sidebar selectCategory={selectCategory} setSelectCategory={setSelectCategory} />
+        <Sidebar />
       </Box>
 
       <Box p={2} sx={{ overflowY: 'auto', height: '90vh', flex: 2}}>
@@ -60,7 +32,7 @@ const Feed = ({ setProgress }) => {
 
         <InfiniteScroll
             dataLength={videos.length}
-            next={fetchMoreData}
+            next={() => fetchMoreData(selectCategory)}
             hasMore={videos.length !== totalResults}
             loader={<Loader/>}
         >

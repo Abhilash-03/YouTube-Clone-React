@@ -1,27 +1,17 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom";
-import { fetchApi } from "../utils/api";
 import { Box } from "@mui/material";
 import Video from "./Video";
 import ChannelCard from "./ChannelCard";
+import YoutubeContext from "../context/YoutubeContext";
 
 const ChannelDetails = () => {
-  const [channelDetail, setChannelDetail] = useState(null);
-  const [channelVideos, setChannelVideos] = useState([]);
+  const { channelInfo, channelDetail, channelVideos } = useContext(YoutubeContext);
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchResults = async() => {
-      const data = await fetchApi(`channels?part=snippet&id=${id}`);
-      setChannelDetail(data?.items[0]);
-
-      const videosData = await fetchApi(`search?channelId=${id}&part=snippet&order=date`);
-      setChannelVideos(videosData?.items);
-    }
-
-    fetchResults();
+    channelInfo(id);
   }, [id])
-
 
   return (
     <Box minHeight={'95vh'}>
@@ -31,7 +21,7 @@ const ChannelDetails = () => {
          }} />
         <ChannelCard channelDetail={channelDetail} marginTop={'-93px'} />
       </Box>
-      <Box p={2} display={'flex'}>
+      <Box p={2} display={'flex'} alignItems={'center'} justifyContent={'center'}>
         <Video videos={channelVideos} />
       </Box>
     </Box>

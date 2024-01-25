@@ -1,35 +1,28 @@
 import { Box, Stack, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import ReactPlayer from "react-player"
 import { Link, useParams } from "react-router-dom"
-import { fetchApi } from "../utils/api"
 import Video from "./Video"
 import { CheckCircle, CommentRounded } from "@mui/icons-material"
 import Comments from "./Comments"
 import Loader from "./Loader"
+import YoutubeContext from "../context/YoutubeContext"
 
 const VideoDetails = () => {
-    const [videoDetails, setVideoDetails] = useState(null);
-    const [videos, setVideos] = useState(null);
-    const [comments, setComments] = useState(null);
-    const { id } = useParams();
-
-    useEffect(() => {
-        fetchApi(`videos?part=snippet,statistics&id=${id}`)
-        .then((data) => setVideoDetails(data.items[0]));
-
-        fetchApi(`search?part=snippet&relatedToVideo=${id}&type=video`)
-        .then((data) => setVideos(data.items));
-
-        fetchApi(`commentThreads?part=snippet&videoId=${id}`)
-        .then((data) => setComments(data.items));
-    }, [id])
+   const { videoDetails, comments, relatedVideos, getRelatedVideos, getVideoDetails, commentsThreads } = useContext(YoutubeContext);
+   const { id } = useParams();
+   
+   useEffect(() => {
+      getRelatedVideos(id);
+      getVideoDetails(id);
+      commentsThreads(id);
+   }, [id]);
 
    if(!videoDetails?.snippet) return <Loader />;
 
-    const {snippet: {title, channelId, channelTitle}, statistics: {viewCount, likeCount}} = videoDetails;
+   const {snippet: {title, channelId, channelTitle}, statistics: {viewCount, likeCount}} = videoDetails;
 
-    if(!comments) return <Loader />;
+   if(!comments) return <Loader />;
 
   return (
      <Box minHeight={'95vh'}>
@@ -73,7 +66,7 @@ const VideoDetails = () => {
                </Box>
             </Box>
             <Box px={2} py={{md: 1, xs: 5}} justifyContent={'center'} alignContent={'center'}>
-          <Video videos={videos} direction='column'  />
+          <Video videos={relatedVideos} direction='column'  />
          </Box>
         </Stack>
      </Box>

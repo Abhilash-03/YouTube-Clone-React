@@ -1,7 +1,10 @@
 import { Button, Stack } from "@mui/material"
 import { categories } from "../utils/constants"
+import { useContext } from "react"
+import YoutubeContext from "../context/YoutubeContext"
 
-const Sidebar = ({ selectCategory, setSelectCategory}) => {
+const Sidebar = () => {
+  const { selectCategory, setSelectCategory} = useContext(YoutubeContext);
   return (
     <Stack
      direction={'row'}

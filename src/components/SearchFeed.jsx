@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom";
-import { fetchApi } from "../utils/api";
 import { Box, Typography } from "@mui/material";
 import Video from "./Video";
+import YoutubeContext from "../context/YoutubeContext";
+import Loader from "./Loader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const SearchFeed = ({ setProgress }) => {
-  const [searchVideos, setSearchVideos] = useState([]);
+const SearchFeed = () => {
   const { searchTerm } = useParams();
-
-  const getSearchVideos = async() => {
-    setProgress(30)
-    const data = await fetchApi(`search?part=snippet&q=${searchTerm}`);
-    setProgress(70)
-    setSearchVideos(data.items);
-    setProgress(100)
-
-  }
+  const { fetchData, videos, fetchMoreData, totalResults } = useContext(YoutubeContext);
 
   useEffect(() => {
-    getSearchVideos();
+    fetchData(searchTerm);
   }, [searchTerm])
 
   return (
@@ -29,7 +22,14 @@ const SearchFeed = ({ setProgress }) => {
       </Typography>
       <Box display={'flex'} justifyContent={'center'}>
       {/* <Box sx={{ mr: { sm: '100px' } }}/> */}
-      {<Video videos={searchVideos} />}
+      <InfiniteScroll
+            dataLength={videos.length}
+            next={() => fetchMoreData(searchTerm)}
+            hasMore={videos.length !== totalResults}
+            loader={<Loader/>}
+        >
+      {<Video videos={videos} />}
+      </InfiniteScroll>
       </Box>
     </Box>
     </>
